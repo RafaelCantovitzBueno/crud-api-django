@@ -9,3 +9,13 @@ from .models import User
 from .serializers import UserSerializer
 
 import json
+
+@api_view(['GET'])
+def get_users(request):
+    if request.method == 'GET':
+        users = User.objects.all() # Get all objects in User's database (It returns a querryset)
+
+        serializer = UserSerializer(users, many=True) # Serialize the object data into json (Has a 'many' parameter cause it's a querryset)
+        return Response(serializer.data) # Return the serialized data
+    
+    return Response(status.HTTP_400_BAD_REQUEST)
