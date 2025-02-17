@@ -18,7 +18,7 @@ Certifique-se de ter o **Python** instalado em sua máquina. Recomendamos o uso 
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seuusuario/crud-api-django.git
+   git clone https://github.com/RafaelCantovitzBueno/crud-api-django.git
    cd crud-api-django
    ```
 
