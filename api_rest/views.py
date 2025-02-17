@@ -20,7 +20,7 @@ def get_users(request):
     
     return Response(status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def get_by_nick(request, nick):
     try:
         user = User.objects.get(pk=nick)
@@ -30,6 +30,13 @@ def get_by_nick(request, nick):
     if request.method == 'GET':
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
+    if request.method == 'PUT':
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # CRUD  
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
