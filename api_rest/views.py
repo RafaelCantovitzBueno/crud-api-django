@@ -72,9 +72,18 @@ def user_manager(request):
             updated_user = User.objects.get(pk=nickname)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        print(request.data)
+        print(f'Data = {request.data}')
         serializer = UserSerializer(updated_user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    # Deleting data
+    if request.method == 'DELETE':
+        try:
+            user_to_delete = User.objects.get(pk=request.data['user_nickname'])
+            user_to_delete.delete()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
