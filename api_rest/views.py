@@ -19,3 +19,14 @@ def get_users(request):
         return Response(serializer.data) # Return the serialized data
     
     return Response(status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_by_nick(request, nick):
+    try:
+        user = User.objects.get(pk=nick)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
